@@ -208,7 +208,7 @@ function handleDrop(e) {
         correctMatchCount++; // Increment correct match count
         disableMatchedItem(draggedItem); // Disable the matched item
         if (correctMatchCount === 4) { // Check if all matches are correct
-            document.getElementById('hooray-sound').play(); // Play hooray sound
+            PlayWinSound(); // Play hooray sound
         }
     }
 
