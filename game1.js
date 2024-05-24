@@ -41,13 +41,6 @@ document.addEventListener('DOMContentLoaded', initializeGame);
         // Add more animals and statements as needed
     ];
     
-       const possibleColors = [
-        'hsla(60, 100%, 60%, .7)',   // yellow
-        'hsla(30, 100%, 60%, .7)',   // orange
-        'hsla(240, 100%, 60%, .7)',  // blue
-        'hsla(120, 100%, 60%, .7)',  // green
-        'hsla(270, 100%, 60%, .7)'   // purple
-];
 
     const incorrectStatements = [
         'Can fly backwards',
@@ -90,7 +83,16 @@ document.addEventListener('DOMContentLoaded', initializeGame);
         // Add more incorrect statements as needed
     ];
 
+      const possibleColors = [
+        'hsla(60, 100%, 60%, .7)',   // yellow
+        'hsla(30, 100%, 60%, .7)',   // orange
+        'hsla(240, 100%, 60%, .7)',  // blue
+        'hsla(120, 100%, 60%, .7)',  // green
+        'hsla(270, 100%, 60%, .7)'   // purple
+];
+
     let usedStatements = []; // To track used statements
+    let usedIncorrectStatements = []; // To track used incorrect statements
     let correctMatchCount = 0; // To track number of correct matches
     let draggedItem = null; // Track the item being dragged
     let touchClone = null; // Clone of the dragged item for touch
@@ -140,9 +142,12 @@ document.addEventListener('DOMContentLoaded', initializeGame);
         const uniqueStatements = statements.filter(s => !usedStatements.includes(s));
         usedStatements.push(...uniqueStatements);
 
-        // Add one incorrect statement randomly
-        const incorrect = shuffleArray(incorrectStatements.filter(i => !usedStatements.includes(i)))[0];
-        usedStatements.push(incorrect);
+        // Add one incorrect statement randomly, ensuring no repeats until all are used
+         if (usedIncorrectStatements.length === incorrectStatements.length) {
+        usedIncorrectStatements = []; // Reset if all incorrect statements have been shown
+        }
+         const incorrect = shuffleArray(incorrectStatements.filter(i => !usedIncorrectStatements.includes(i)))[0];
+        usedIncorrectStatements.push(incorrect);
 
         const allStatements = shuffleArray([...uniqueStatements, incorrect]);
 
@@ -226,7 +231,6 @@ function handleTouchStart(e) {
     touchClone.style.position = 'absolute';
     touchClone.style.pointerEvents = 'none'; // Ignore pointer events on the clone
     touchClone.style.opacity = '1';
-    touchClone.style.scale = '.5';
     document.body.appendChild(touchClone);
 }
 
