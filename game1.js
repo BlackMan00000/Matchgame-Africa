@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', initializeGame);
         { id: 'thompsonsgazelle', name: 'ThompsonsGazelle', statement: 'Perform high jumps ("pronking")', imgSrc: 'https://matt.moses.name/matchgame/images/ThompsonsGazelle.png' },
         { id: 'waterbuck', name: 'Waterbuck', statement: 'Secrete a waterproof substance', imgSrc: 'https://matt.moses.name/matchgame/images/Waterbuck.png' },
         { id: 'whiterhino', name: 'WhiteRhino', statement: 'Have square-shaped lips', imgSrc: 'https://matt.moses.name/matchgame/images/WhiteRhino.png' },
-        { id: 'zebras', name: 'Zebras', statement: 'Stripes deter flies', imgSrc: 'https://matt.moses.name/matchgame/images/Zebras.png' },
+        { id: 'zebras', name: 'Zebras', statement: 'Stripes deter flies', imgSrc: 'https://matt.moses.name/matchgame/images/Zebras.png' }
         // Add more animals and statements as needed
     ];
     
@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', initializeGame);
         'Walks all day long',
         'Sleeps only at night',
         'Stares at everyone and everything',
-        'Has one very sharp tooth',
+        'Has one very sharp tooth'
         // Incorrect statement that doesn't match any animal
         // Add more incorrect statements as needed
     ];
