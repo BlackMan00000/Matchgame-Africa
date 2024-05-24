@@ -51,7 +51,6 @@ document.addEventListener('DOMContentLoaded', initializeGame);
 
     const incorrectStatements = [
         'Can fly backwards',
-        'Makes very disturbing noises with its tail',
         'Produces a sticky coating',
         'Makes no noises',
         'Makes human-sounding vocals',
