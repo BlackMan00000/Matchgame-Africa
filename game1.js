@@ -99,6 +99,7 @@ document.addEventListener('DOMContentLoaded', initializeGame);
     let colorAssignments = {}; // To store color assignments for each animal
 
     function initializeGame() {
+        document.getElementById('playBtn').play();
         correctMatchCount = 0; // Reset correct match count
         colorAssignments = {}; // Reset color assignment
         populateGameItems();
