@@ -226,6 +226,7 @@ function handleTouchStart(e) {
     touchClone.style.position = 'absolute';
     touchClone.style.pointerEvents = 'none'; // Ignore pointer events on the clone
     touchClone.style.opacity = '1';
+    touchClone.style.scale = '.5';
     document.body.appendChild(touchClone);
 }
 
