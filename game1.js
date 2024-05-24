@@ -91,8 +91,8 @@ document.addEventListener('DOMContentLoaded', initializeGame);
         'hsla(270, 100%, 60%, .7)'   // purple
 ];
 
-    let usedStatements = []; // To track used statements
-    let usedIncorrectStatements = []; // To track used incorrect statements
+    let usedStatements = new Set(); // To track used statements
+    let usedIncorrectStatements = new Set(); // To track used incorrect statements
     let correctMatchCount = 0; // To track number of correct matches
     let draggedItem = null; // Track the item being dragged
     let touchClone = null; // Clone of the dragged item for touch
@@ -135,21 +135,23 @@ document.addEventListener('DOMContentLoaded', initializeGame);
         });
 
         // Collect and shuffle statements, ensuring no repeats until all are used
-        const statements = selectedAnimals.map(a => a.statement);
-        if (usedStatements.length + statements.length > animals.length) {
-            usedStatements = []; // Reset if all statements have been shown
-        }
-        const uniqueStatements = statements.filter(s => !usedStatements.includes(s));
-        usedStatements.push(...uniqueStatements);
+    const statements = selectedAnimals.map(a => a.statement);
+    const uniqueStatements = statements.filter(s => !usedStatements.has(s));
 
-        // Add one incorrect statement randomly, ensuring no repeats until all are used
-         if (usedIncorrectStatements.length === incorrectStatements.length) {
-        usedIncorrectStatements = []; // Reset if all incorrect statements have been shown
-        }
-         const incorrect = shuffleArray(incorrectStatements.filter(i => !usedIncorrectStatements.includes(i)))[0];
-        usedIncorrectStatements.push(incorrect);
+    if (uniqueStatements.length < 4) {
+        usedStatements.clear(); // Reset if all statements have been shown
+    }
+    uniqueStatements.push(...statements.filter(s => !usedStatements.has(s)).slice(0, 4 - uniqueStatements.length));
+    uniqueStatements.forEach(s => usedStatements.add(s));
 
-        const allStatements = shuffleArray([...uniqueStatements, incorrect]);
+    // Add one incorrect statement randomly, ensuring no repeats until all are used
+    const incorrect = shuffleArray(incorrectStatements.filter(i => !usedIncorrectStatements.has(i)))[0];
+    if (usedIncorrectStatements.size === incorrectStatements.length) {
+        usedIncorrectStatements.clear(); // Reset if all incorrect statements have been shown
+    }
+    usedIncorrectStatements.add(incorrect);
+
+    const allStatements = shuffleArray([...uniqueStatements, incorrect]);
 
         // Populate droppable items with statements
     droppableContainer.innerHTML = ''; // Clear previous items
