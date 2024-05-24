@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', initializeGame);
         'hsla(270, 100%, 60%, .7)'   // purple
 ];
 
-    let usedStatements = new Set(); // To track used statements
+    let usedAnimals = new Set(); // To track used animals
     let usedIncorrectStatements = new Set(); // To track used incorrect statements
     let correctMatchCount = 0; // To track number of correct matches
     let draggedItem = null; // Track the item being dragged
@@ -113,8 +113,13 @@ document.addEventListener('DOMContentLoaded', initializeGame);
         draggableContainer.innerHTML = '';
         droppableContainer.innerHTML = '';
 
-        // Shuffle and select 4 random animals
-        const selectedAnimals = shuffleArray([...animals]).slice(0, 4);
+        // Shuffle and select 4 random unique animals
+    const availableAnimals = animals.filter(a => !usedAnimals.has(a.id));
+    if (availableAnimals.length < 4) {
+        usedAnimals.clear(); // Reset if all animals have been shown
+    }
+    const selectedAnimals = shuffleArray(animals.filter(a => !usedAnimals.has(a.id))).slice(0, 4);
+    selectedAnimals.forEach(animal => usedAnimals.add(animal.id));
 
         // Shuffle possible colors and assign them to animals
         const shuffledColors = shuffleArray([...possibleColors]).slice(0, selectedAnimals.length);
@@ -134,15 +139,15 @@ document.addEventListener('DOMContentLoaded', initializeGame);
             draggableContainer.appendChild(animalImg);
         });
 
-        // Collect and shuffle statements, ensuring no repeats until all are used
+    // Collect and shuffle statements, ensuring no repeats until all are used
     const statements = selectedAnimals.map(a => a.statement);
-    const uniqueStatements = statements.filter(s => !usedStatements.has(s));
+    const uniqueStatements = statements.filter(s => !usedAnimals.has(s));
 
     if (uniqueStatements.length < 4) {
-        usedStatements.clear(); // Reset if all statements have been shown
+        usedAnimals.clear(); // Reset if all statements have been shown
     }
-    uniqueStatements.push(...statements.filter(s => !usedStatements.has(s)).slice(0, 4 - uniqueStatements.length));
-    uniqueStatements.forEach(s => usedStatements.add(s));
+    const finalStatements = [...uniqueStatements].slice(0, 4);
+    finalStatements.forEach(s => usedAnimals.add(s));
 
     // Add one incorrect statement randomly, ensuring no repeats until all are used
     const incorrect = shuffleArray(incorrectStatements.filter(i => !usedIncorrectStatements.has(i)))[0];
@@ -151,7 +156,7 @@ document.addEventListener('DOMContentLoaded', initializeGame);
     }
     usedIncorrectStatements.add(incorrect);
 
-    const allStatements = shuffleArray([...uniqueStatements, incorrect]);
+    const allStatements = shuffleArray([...finalStatements, incorrect]);
 
         // Populate droppable items with statements
     droppableContainer.innerHTML = ''; // Clear previous items
