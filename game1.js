@@ -152,13 +152,19 @@ document.addEventListener('DOMContentLoaded', initializeGame);
         const allStatements = shuffleArray([...uniqueStatements, incorrect]);
 
         // Populate droppable items with statements
-        allStatements.forEach(statement => {
-            const statementDiv = document.createElement('div');
-            statementDiv.textContent = statement;
-            statementDiv.classList.add('droppable');
-            droppableContainer.appendChild(statementDiv);
-        });
+    droppableContainer.innerHTML = ''; // Clear previous items
+    allStatements.forEach(statement => {
+        const statementDiv = document.createElement('div');
+        statementDiv.textContent = statement;
+        statementDiv.classList.add('droppable');
+        droppableContainer.appendChild(statementDiv);
+    });
+
+    // Ensure there are exactly 5 statements (4 correct, 1 incorrect)
+    if (allStatements.length !== 5) {
+        console.error("There was an error in generating statements. There should be exactly 5 statements.");
     }
+}
 
 function setupEventListeners() {
     // Event listeners for draggable items
